@@ -3,9 +3,10 @@ CASTLE - R. Andonie
 2019-04-06
 */
 
-$fn=500; // Circle resolution
+
 
 /*MANUFACTURING*/
+$fn=500; // Circle resolution
 h_man=5;
 
 /*MERLON VARIABLES*/
@@ -26,13 +27,35 @@ h_floor_tower= 100;
 os_floor_tower=-20;
 
 /*EXECUTE*/
-//tower_basic_f();
 
-//windowsill();
-window_frame_r_1(win_w_tower, win_h_tower,5);
+rotate([0,0,90]){
+    for(i=[1:8]){
+    translate([0,i*30]){
+        windowsill();
+        translate([6,-6]){
+            mirror([0,1,0]){
+                windowsill();
+                }
+            }
+        }
+    }
+}
 
-/*
-translate([0,-500]){
+translate([0,120]){
+rotate([0,0,90]){
+for(i=[0:4-1]){
+    for(j=[0:6-1]){
+        translate([j*26, i*56]){
+            window_frame_r_1(win_w_tower, win_h_tower,5);
+            }
+        }
+    }
+}
+}
+
+//window_frame_r_1(win_w_tower, win_h_tower,5);
+
+translate([0,0]){
     tower_1_s();
 
     translate([150,0]){
@@ -46,34 +69,48 @@ translate([0,-500]){
         tower_1_f();
         }
     }
-*/
-echo(outline_merlon[1]*nof_merlon_tower);
+
+
 
 /*MODULES*/
 
 
-module windowsill(){
-            for(j=[1:2]){
-            translate([0,j*h_floor_tower+os_floor_tower]){                    
-                for(i=[1:3]){
-                    translate([(i*outline_merlon[1]*nof_merlon_tower)/4 - win_w_tower/2,2*h_man]){
-                        window_r_1(win_w_tower,win_h_tower);
-                        }
-                    } // end windows
+module windowsill(){          
+m_margin = 5;
+m_depth=10;
+ww = (3*win_w_tower+2*(((outline_merlon[1]*nof_merlon_tower)/4)-win_w_tower)+2*m_margin);
+
+m_rr = ((4*m_depth*m_depth)+(ww*ww))/(8*m_depth);
+m_kos= m_rr - m_depth;
+
+intersection(){
+    
+    translate(-[((outline_merlon[1]*nof_merlon_tower)/4)-win_w_tower/2 -m_margin,0]){
+        translate([0,-5]){                                     
+            for(k=[6:4:outline_merlon[1]*nof_merlon_tower/h_man-7]){
+                translate([k*h_man,0]){
+                    plug_cutout();
+                    }         
                 }
             }
-            
-        for(j=[1:3]){
-            translate([0,j*h_floor_tower+os_floor_tower]){                                     
-                for(k=[2:2:outline_merlon[1]*nof_merlon_tower/h_man-3]){
-                    translate([k*h_man,0]){
-                        plug_cutout();
-                        }
-                    } // end floors
-                    
-                }
+
+        n = outline_merlon[1]*nof_merlon_tower/h_man-6;
+        
+
+        translate([((outline_merlon[1]*nof_merlon_tower)/4)-win_w_tower/2 -m_margin,0]){
+                square([ww,50]);
             }
+    } 
+        translate([ww/2,-m_kos]){
+                circle(m_rr);
+            }
+
     }
+
+    
+    
+    }
+    
     
     
 module window_frame_r_1(w,h,d){
