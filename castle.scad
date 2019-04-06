@@ -27,22 +27,63 @@ os_floor_tower=-20;
 
 /*EXECUTE*/
 //tower_basic_f();
-tower_1_s();
-translate([150,0]){
-    tower_1_f();
-    }
-translate([300,0]){
+
+//windowsill();
+window_frame_r_1(win_w_tower, win_h_tower,5);
+
+/*
+translate([0,-500]){
     tower_1_s();
-    }
 
-translate([450,0]){
-    tower_1_f();
-    }
+    translate([150,0]){
+        tower_1_f();
+        }
+    translate([300,0]){
+        tower_1_s();
+        }
 
+    translate([450,0]){
+        tower_1_f();
+        }
+    }
+*/
 echo(outline_merlon[1]*nof_merlon_tower);
 
 /*MODULES*/
 
+
+module windowsill(){
+            for(j=[1:2]){
+            translate([0,j*h_floor_tower+os_floor_tower]){                    
+                for(i=[1:3]){
+                    translate([(i*outline_merlon[1]*nof_merlon_tower)/4 - win_w_tower/2,2*h_man]){
+                        window_r_1(win_w_tower,win_h_tower);
+                        }
+                    } // end windows
+                }
+            }
+            
+        for(j=[1:3]){
+            translate([0,j*h_floor_tower+os_floor_tower]){                                     
+                for(k=[2:2:outline_merlon[1]*nof_merlon_tower/h_man-3]){
+                    translate([k*h_man,0]){
+                        plug_cutout();
+                        }
+                    } // end floors
+                    
+                }
+            }
+    }
+    
+    
+module window_frame_r_1(w,h,d){
+    difference(){
+        window_r_1(w+d,h+d);
+        translate([d/2, d/2]){
+            window_r_1(w,h);
+            }
+        }
+    }
 
 module merlon(){
     m_shift = outline_merlon/2 + [r_merlon/2,0];
