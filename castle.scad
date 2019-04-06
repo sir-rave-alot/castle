@@ -27,11 +27,17 @@ os_floor_tower=-20;
 
 /*EXECUTE*/
 //tower_basic_f();
-tower_1_f();
-translate([-150,0]){
-    tower_basic_s();
+tower_1_s();
+translate([150,0]){
+    tower_1_f();
+    }
+translate([300,0]){
+    tower_1_s();
     }
 
+translate([450,0]){
+    tower_1_f();
+    }
 
 echo(outline_merlon[1]*nof_merlon_tower);
 
@@ -102,6 +108,36 @@ module tower_1_f(){
         
     } // end tower_1_f
 
+module tower_1_s(){
+    difference(){
+        tower_basic_s();
+        
+        for(j=[1:2]){
+            translate([0,j*h_floor_tower+os_floor_tower]){                    
+                for(i=[1:3]){
+                    translate([(i*outline_merlon[1]*nof_merlon_tower)/4 - win_w_tower/2,2*h_man]){
+                        window_r_1(win_w_tower,win_h_tower);
+                        }
+                    } // end windows
+                }
+            }
+            
+        for(j=[1:3]){
+            translate([0,j*h_floor_tower+os_floor_tower]){                                     
+                for(k=[2:2:outline_merlon[1]*nof_merlon_tower/h_man-3]){
+                    translate([k*h_man,0]){
+                        plug_cutout();
+                        }
+                    } // end floors
+                    
+                }
+            }            
+            
+           
+    } // end difference
+    
+        
+    } // end tower_1_f
 
 module tower_basic_s(){
        translate([0,h_tower-h_man]){
@@ -120,11 +156,15 @@ module tower_basic_s(){
                 }
 
         // RIGHT PLUGS
-        for(i = [2:2:h_tower/h_man]){
+        for(i = [1:2:h_tower/h_man]){
             translate([outline_merlon[1]*nof_merlon_tower-h_man, -i*h_man]){
                 plug_cutout();
                 }
             }
+        // top correction
+        translate([outline_merlon[1]*nof_merlon_tower-h_man, 0]){
+                plug_cutout();
+                }
 
         // BOTTOM PLUGS
         for(i = [-1:2:outline_merlon[1]*nof_merlon_tower/h_man]){
