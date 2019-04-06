@@ -28,7 +28,9 @@ os_floor_tower=-20;
 /*EXECUTE*/
 //tower_basic_f();
 tower_1_f();
-
+translate([150,0]){
+    tower_basic_s();
+    }
 
 
 echo(outline_merlon[1]*nof_merlon_tower);
@@ -69,7 +71,6 @@ module window_r_1(w,h){
         }
     }
 
-
 module tower_1_f(){
     difference(){
         tower_basic_f();
@@ -102,7 +103,38 @@ module tower_1_f(){
     } // end tower_1_f
 
 
+module tower_basic_s(){
+       translate([0,h_tower-h_man]){
+       difference(){ // Plug cutouts
+        tower_basic_basic();
+        
+        // LEFT PLUGS
+        for(i = [1:2:h_tower/h_man]){
+            translate([0, -i*h_man]){
+                plug_cutout();
+                }
+            }
+            // top correction
+            translate([0, 0]){
+                plug_cutout();
+                }
 
+        // RIGHT PLUGS
+        for(i = [2:2:h_tower/h_man]){
+            translate([outline_merlon[1]*nof_merlon_tower-h_man, -i*h_man]){
+                plug_cutout();
+                }
+            }
+
+        // RIGHT PLUGS
+        for(i = [-1:2:outline_merlon[1]*nof_merlon_tower/h_man]){
+            translate([i*h_man,-h_tower]){
+                plug_cutout();
+                }
+            }  
+    } // end difference
+  }
+    }
 
 module tower_basic_f(){
    translate([0,h_tower-h_man]){
