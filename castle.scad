@@ -119,14 +119,14 @@ module tower_basic_s(){
                 plug_cutout();
                 }
 
-        // BOTTOM PLUGS
+        // RIGHT PLUGS
         for(i = [2:2:h_tower/h_man]){
             translate([outline_merlon[1]*nof_merlon_tower-h_man, -i*h_man]){
                 plug_cutout();
                 }
             }
 
-        // RIGHT PLUGS
+        // BOTTOM PLUGS
         for(i = [-1:2:outline_merlon[1]*nof_merlon_tower/h_man]){
             translate([i*h_man,-h_tower]){
                 plug_cutout();
@@ -148,14 +148,14 @@ module tower_basic_f(){
                 }
             }
 
-        // BOTTOM PLUGS
+        // RIGHT PLUGS
         for(i = [2:2:h_tower/h_man]){
             translate([outline_merlon[1]*nof_merlon_tower-h_man, -i*h_man]){
                 plug_cutout();
                 }
             }
 
-        // RIGHT PLUGS
+        // BOTTOM PLUGS
         for(i = [1:2:outline_merlon[1]*nof_merlon_tower/h_man]){
             translate([i*h_man,-h_tower]){
                 plug_cutout();
