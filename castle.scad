@@ -23,6 +23,7 @@ win_w_tower = 20;
 win_h_tower = 50;
 
 h_floor_tower= 100;
+os_floor_tower=-20;
 
 /*EXECUTE*/
 //tower_basic_f();
@@ -72,13 +73,17 @@ module tower_1_f(){
         tower_basic_f();
         
         for(j=[1:2]){
-            translate([0,j*h_floor_tower-h_man/2]){                    
+            translate([0,j*h_floor_tower+os_floor_tower]){                    
                 for(i=[1:3]){
                     translate([(i*outline_merlon[1]*nof_merlon_tower)/4 - win_w_tower/2,2*h_man]){
                         window_r_1(win_w_tower,win_h_tower);
                         }
                     } // end windows
-                    
+                }
+            }
+            
+        for(j=[1:3]){
+            translate([0,j*h_floor_tower+os_floor_tower]){                                     
                 for(k=[2:2:outline_merlon[1]*nof_merlon_tower/h_man-3]){
                     translate([k*h_man,0]){
                         plug_cutout();
@@ -86,7 +91,8 @@ module tower_1_f(){
                     } // end floors
                     
                 }
-            }
+            }            
+            
            
     } // end difference
     
