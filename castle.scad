@@ -5,6 +5,9 @@ CASTLE - R. Andonie
 
 $fn=500; // Circle resolution
 
+/*MANUFACTURING*/
+h_man=5;
+
 /*MERLON VARIABLES*/
 l_merlon = 20; // edge length
 h_merlon = 10; // edge hight
@@ -15,9 +18,10 @@ outline_merlon = [(l_merlon),(h_merlon+2*r_merlon)];
 
 /*TOWER VARIABLES*/
 nof_merlon_tower = 5;
-h_tower = 350;
+h_tower = 360;
+
 /*EXECUTE*/
-tower();
+tower_f();
 
 /*MODULES*/
 module merlon(){
@@ -45,20 +49,49 @@ module merlon(){
 }// end merlon
 
 
-module tower(){
+module tower_f(){
    
-    
-    union(){
-        for(i = [0:nof_merlon_tower-1]){
-            translate([i*(d_merlon+l_merlon+d_merlon),0]){
-                merlon();
+    difference(){ // Plug cutouts
+        union(){
+            for(i = [0:nof_merlon_tower-1]){
+                translate([i*(d_merlon+l_merlon+d_merlon),0]){
+                    merlon();
+                }
             }
-        }
-        translate([0,-h_tower]){
-            square([(outline_merlon[1])*nof_merlon_tower, h_tower]);
+            translate([0,-h_tower]){
+                square([outline_merlon[1]*nof_merlon_tower, h_tower]);
+                }
+        } // end union   
+        
+        // LEFT PLUGS
+        for(i = [2:2:h_tower/h_man]){
+            translate([0, -i*h_man]){
+                plug_cutout();
+                }
             }
-    }   
+
+        // RIGHT PLUGS
+        for(i = [2:2:h_tower/h_man]){
+            translate([outline_merlon[1]*nof_merlon_tower-h_man, -i*h_man]){
+                plug_cutout();
+                }
+            }
+
+        // RIGHT PLUGS
+        for(i = [1:2:outline_merlon[1]*nof_merlon_tower/h_man]){
+            translate([i*h_man,-h_tower]){
+                plug_cutout();
+                }
+            }
+
+        
+          
+    } // end difference
 } // end tower
+
+module plug_cutout(){
+    square(h_man);
+} // end plug_cutout
     
     
     
