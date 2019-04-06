@@ -29,6 +29,8 @@ os_floor_tower=-20;
 //tower_basic_f();
 tower_1_f();
 
+
+
 echo(outline_merlon[1]*nof_merlon_tower);
 
 /*MODULES*/
@@ -105,16 +107,7 @@ module tower_1_f(){
 module tower_basic_f(){
    translate([0,h_tower-h_man]){
        difference(){ // Plug cutouts
-        union(){
-            for(i = [0:nof_merlon_tower-1]){
-                translate([i*(d_merlon+l_merlon+d_merlon),-0.001]){
-                    merlon();
-                }
-            }
-            translate([0,-h_tower]){
-                square([outline_merlon[1]*nof_merlon_tower, h_tower]);
-                }
-        } // end union   
+        tower_basic_basic();
         
         // LEFT PLUGS
         for(i = [2:2:h_tower/h_man]){
@@ -140,6 +133,18 @@ module tower_basic_f(){
   }
 } // end tower
 
+module tower_basic_basic(){
+            union(){
+            for(i = [0:nof_merlon_tower-1]){
+                translate([i*(d_merlon+l_merlon+d_merlon),-0.001]){
+                    merlon();
+                }
+            }
+            translate([0,-h_tower]){
+                square([outline_merlon[1]*nof_merlon_tower, h_tower]);
+                }
+        } // end union  
+    }
 
 
 
