@@ -1,0 +1,217 @@
+
+/*MANUFACTURING*/
+$fn=500; // Circle resolution
+h_man=5;
+
+/* GLOBAL MODEL VARIABLES */
+w_unit = 30; // merlon total width
+h_unit = 30; // merlon total height
+
+h_floor = 90;
+os_top = -20;
+
+
+/*TOWER VARIABLES*/
+nof_merlon_tower = 5;
+h_tower = 300;
+w_win_tower=20;
+h_win_tower=50;
+/*WALL VARIABLES*/
+nof_merlon_wall = 15;
+h_wall = 150;
+h_gate=120;
+w_gate=100;
+
+
+/**********************************************************************/
+tower_1_f(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
+translate([-160,0]){
+tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
+    }
+translate([160,0]){
+tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
+    } 
+/**********************************************************************/
+
+module tower_1_s(n,h,win_w,win_h){
+    
+    difference(){
+        tower_basic_s(n,h);
+        
+        for(j=[1:2]){
+            translate([0,j*h_floor+os_floor]){                    
+                for(i=[1:3]){
+                    translate([((i*w_unit*n)/4 - win_w/2)+h_man,(j*h_floor)+4*h_man]){
+                        window_r_1(win_w,win_h);
+                        }
+                    } // end windows
+                }
+            }
+            
+        for(j=[1:3]){
+            translate([0,j*h_floor+os_floor]){                                     
+                for(k=[2:2:w_unit*n/h_man-1]){
+                    translate([k*h_man,j*h_floor+2*h_man]){
+                        plug_cutout();
+                        }
+                    } // end floors
+                    
+                }
+            }            
+            
+           
+    } // end difference
+}
+
+module tower_1_f(n,h,win_w,win_h){
+    
+    difference(){
+        tower_basic_f(n,h);
+        
+        for(j=[1:2]){
+            translate([0,j*h_floor+os_floor]){                    
+                for(i=[1:3]){
+                    translate([((i*w_unit*n)/4 - win_w/2)+h_man,(j*h_floor)+4*h_man]){
+                        window_r_1(win_w,win_h);
+                        }
+                    } // end windows
+                }
+            }
+            
+        for(j=[1:3]){
+            translate([0,j*h_floor+os_floor]){                                     
+                for(k=[2:2:w_unit*n/h_man-1]){
+                    translate([k*h_man,j*h_floor+2*h_man]){
+                        plug_cutout();
+                        }
+                    } // end floors
+                    
+                }
+            }            
+            
+           
+    } // end difference
+}
+
+module tower_basic_s(n,h){
+    
+   translate([h_man,h_tower+h_man]){
+       union(){ // Plug cutouts
+        tower_basic_basic(n,h);
+        
+        // LEFT PLUGS
+        for(i = [1:2:h_tower/h_man]){
+            translate([-h_man, -i*h_man]){
+                plug_cutout();
+                }
+            }
+
+        // RIGHT PLUGS
+        for(i = [1:2:h_tower/h_man]){
+            translate([w_unit*n, -i*h_man]){
+                plug_cutout();
+                }
+            }
+
+        // BOTTOM PLUGS
+        for(i = [1:2:w_unit*n/h_man]){
+            translate([i*h_man,-h_tower-h_man]){
+                plug_cutout();
+                }
+            }  
+    } // end difference
+  }
+} // end tower
+
+module tower_basic_f(n,h){
+    
+   translate([h_man,h_tower+h_man]){
+       union(){ // Plug cutouts
+        tower_basic_basic(n,h);
+        
+        // LEFT PLUGS
+        for(i = [2:2:h_tower/h_man]){
+            translate([-h_man, -i*h_man]){
+                plug_cutout();
+                }
+            }
+
+        // RIGHT PLUGS
+        for(i = [2:2:h_tower/h_man]){
+            translate([w_unit*n, -i*h_man]){
+                plug_cutout();
+                }
+            }
+
+        // BOTTOM PLUGS
+        for(i = [1:2:w_unit*n/h_man]){
+            translate([i*h_man,-h_tower-h_man]){
+                plug_cutout();
+                }
+            }  
+    } // end difference
+  }
+} // end tower
+
+
+module tower_basic_basic(n,h){
+    
+            union(){
+            for(i = [0:n-1]){
+                translate([i*w_unit,-0.001]){
+                    merlon();
+                }
+            }
+            translate([0,-h]){
+                square([n*h_unit, h]);
+                }
+        } // end union  
+    }
+
+
+
+module merlon(w,h){
+    l_merlon = (2/3)*w_unit; // edge length
+    h_merlon = (1/3)*w_unit; // edge hight
+    r_merlon = (1/3)*w_unit; // cutout radius
+    cd_merlon=1.5; // cutout depth (factor r_merlon)
+    d_merlon = (1/6)*w_unit; // distance between merlon edges
+    outline_merlon = [(l_merlon),(h_merlon+2*r_merlon)];
+    
+    m_shift = outline_merlon/2 + [r_merlon/2,0];
+    
+    translate(m_shift){ // origin shift
+      difference(){
+        union(){
+            square(outline_merlon, center=true);
+            translate([l_merlon/2,-(2*h_merlon-r_merlon/2)]){
+                square(r_merlon/2, center=false);
+                }
+            translate([-(l_merlon+r_merlon)/2,-(2*h_merlon-r_merlon/2)]){
+                square(r_merlon/2, center=false);
+                }
+            } // end union
+        translate([-cd_merlon*r_merlon, -r_merlon/2]){
+            circle(r_merlon);
+            }
+        translate([cd_merlon*r_merlon, -r_merlon/2]){
+            circle(r_merlon);
+            }
+        } //end difference
+    } // end origin shift
+}// end merlon
+
+module window_r_1(w,h){
+    union(){
+        square([w,h-w/2]);
+        translate([w/2, h-w/2]){
+            circle(w/2);
+            }
+        }
+    }
+
+
+/*MANUFACTURING*/
+module plug_cutout(){
+    square(h_man);
+} // end plug_cutout
