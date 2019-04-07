@@ -26,17 +26,20 @@ um_arc_w = 28;
 um_arc_t = 10;
 
 /**********************************************************************/
-/*
-tower_1_f(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
+
+//tower_1_f(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
 translate([-160,0]){
 tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
     }
-translate([160,0]){
+translate([460,0]){
 tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
     } 
-  */
+
+wall_basic_f(nof_merlon_wall,h_wall,w_gate, h_gate);
+translate([0,-200]){
+wall_basic_b(nof_merlon_wall,h_wall,um_arc_w,um_arc_t);
+    }     
     
-    wall_basic_b(nof_merlon_wall,h_wall,um_arc_w,um_arc_t);
     //umayyad_arc_1(um_arc_w,um_arc_t);
 /**********************************************************************/
 
