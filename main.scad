@@ -42,6 +42,7 @@ wall_basic_basic(nof_merlon_wall,h_wall);
 
 
 module wall_basic_basic(n,h){
+    translate([h_man, h_man+h]){
     union(){
         for(i=[0:n-1]){
             translate([i*(d_merlon+l_merlon+d_merlon),-0.0001]){
@@ -74,7 +75,7 @@ module wall_basic_basic(n,h){
     
              
         } // end union
-        
+    }// end shift
 
         
 
