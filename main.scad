@@ -49,7 +49,7 @@ module wall_basic_f(n,h,wg,hg){
     }
 
 module wall_basic_basic(n,h){
-    //translate([h_man, h_man+h]){
+    translate([h_man, h_man+h]){
     difference(){
     union(){
         for(i=[0:n-1]){
@@ -97,7 +97,7 @@ module wall_basic_basic(n,h){
             }
 
     } // end difference
-    //}// end shift
+    }// end shift
     }
 
 
