@@ -10,17 +10,6 @@ width = r + rw;
 
 cut = 0.3;
 
-stand_w1= 20;
-stand_h1 = 8;
-stand_w2= 15;
-stand_h2 = 15;
-
-stand_depth=5;
-stand_h=100;
-stand_w=10;
-
-h = 80;
-
 
 umayyad_arc_1();
 
@@ -40,6 +29,18 @@ translate([-2*width, 0]){
 
     
 module umayyad_arc_1(){
+    
+    stand_w1= 20;
+    stand_h1 = 8;
+    stand_w2= 15;
+    stand_h2 = 15;
+
+    stand_depth=5;
+    stand_h=100;
+    stand_w=stand_depth*2;
+
+    h = 80;
+    
         uy_bow(r,rw,cut);
         socket(stand_w1, stand_h1, stand_w2, stand_h1,width);    
         translate([-width+stand_depth,-stand_h/2]){
