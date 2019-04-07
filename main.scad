@@ -31,12 +31,12 @@ os_floor_tower=-20;
 /*WALL VARIABLES*/
 nof_merlon_wall = 15;
 h_wall = 150;
-h_gate=100;
+h_gate=120;
 w_gate=100;
 
 /*EXECUTE*/
 
-wall_basic_basic(nof_merlon_wall,h_wall);
+wall_basic_f(nof_merlon_wall,h_wall,w_gate,h_gate);
 
 //window_frame_r_1(win_w_tower, win_h_tower,5);
 
@@ -46,6 +46,12 @@ wall_basic_basic(nof_merlon_wall,h_wall);
 /*MODULES*/
 
 module wall_basic_f(n,h,wg,hg){
+    difference(){
+        wall_basic_basic(n,h);
+        translate([(n*(d_merlon+l_merlon+d_merlon)/2)-(wg/2)+h_man,0]){
+            window_r_1(wg,hg);
+            }
+        }
     }
 
 module wall_basic_basic(n,h){
