@@ -9,6 +9,10 @@ CASTLE - R. Andonie
 $fn=500; // Circle resolution
 h_man=5;
 
+/*COMMON*/
+h_floor= 100;
+os_floor=-20;
+
 /*MERLON VARIABLES*/
 l_merlon = 20; // edge length
 h_merlon = 10; // edge hight
@@ -27,6 +31,8 @@ os_floor_tower=-20;
 /*WALL VARIABLES*/
 nof_merlon_wall = 15;
 h_wall = 150;
+h_gate=100;
+w_gate=100;
 
 /*EXECUTE*/
 
@@ -39,10 +45,12 @@ wall_basic_basic(nof_merlon_wall,h_wall);
 
 /*MODULES*/
 
-
+module wall_basic_f(n,h,wg,hg){
+    }
 
 module wall_basic_basic(n,h){
-    translate([h_man, h_man+h]){
+    //translate([h_man, h_man+h]){
+    difference(){
     union(){
         for(i=[0:n-1]){
             translate([i*(d_merlon+l_merlon+d_merlon),-0.0001]){
@@ -71,14 +79,25 @@ module wall_basic_basic(n,h){
             translate([n*(d_merlon+l_merlon+d_merlon), -i*h_man]){
                 plug_cutout();
                 }
-            }        
-    
+            }    
+            
              
         } // end union
-    }// end shift
+        translate([0,-h+2*h_man]){
+          for(j=[1:3]){
+            translate([0,j*h_floor-os_floor]){                                     
+                for(k=[1:2:n*(d_merlon+l_merlon+d_merlon)/h_man-2]){
+                    translate([k*h_man,0]){
+                        plug_cutout();
+                        }
+                    } // end floors
+                    
+                }
+            }
+            }
 
-        
-
+    } // end difference
+    //}// end shift
     }
 
 
@@ -107,6 +126,14 @@ module merlon(){
     } // end origin shift
 }// end merlon
 
+module window_r_1(w,h){
+    union(){
+        square([w,h-w/2]);
+        translate([w/2, h-w/2]){
+            circle(w/2);
+            }
+        }
+    }
 
 /*MANUFACTURING*/
 module plug_cutout(){
