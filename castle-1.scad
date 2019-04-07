@@ -61,6 +61,7 @@ module umayyad_arc_1(r,rw){
 
     h = 2*r;
     
+    translate([(r+rw),stand_h1+stand_h]){
         uy_bow(r,rw,cut);
         socket(stand_w1, stand_h1, stand_w2, stand_h2,width);    
         
@@ -73,7 +74,7 @@ module umayyad_arc_1(r,rw){
                 pillar(stand_w,stand_h,stand_depth,stand_w2,stand_h2);
                 }
         }
-        
+    }//end shift
         
      
 }
@@ -133,7 +134,6 @@ module uy_bow(r,d,c){
     }    
     
 module uy_bow_base(r,d){
-    
     
     
     
