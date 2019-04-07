@@ -32,7 +32,7 @@ tower_1_f();
 
 
 
-/*
+
 rotate([0,0,90]){
     for(i=[1:8]){
     translate([0,i*30]){
@@ -75,7 +75,7 @@ translate([0,0]){
         }
     }
 
-*/
+
 
 /*MODULES*/
 
