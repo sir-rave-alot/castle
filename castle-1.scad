@@ -22,6 +22,8 @@ h_wall = 150;
 h_gate=120;
 w_gate=100;
 
+um_arc_w = 40;
+um_arc_t = 10;
 
 /**********************************************************************/
 /*
@@ -34,12 +36,131 @@ tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
     } 
   */  
     
-    wall_basic_f(nof_merlon_wall,h_wall,w_gate, h_gate);
+    //wall_basic_b(nof_merlon_wall,h_wall,um_arc_w,um_arc_t);
+    umayyad_arc_1(um_arc_w,um_arc_t);
 /**********************************************************************/
+
+
+
+/******************************/
+/* UMAYYAD ARC MODULES  */
+/******************************/
+module umayyad_arc_1(r,rw){
+    width = r + rw;
+
+    cut = 0.3;
+    
+    stand_w1= r/2;
+    stand_h1 = r/8;
+    stand_w2= 1.5*r/4;
+    stand_h2 = 1.2*r/4;
+
+    stand_depth=r/8;
+    stand_h=2.2*r;
+    stand_w=stand_depth*2;
+
+    h = 2*r;
+    
+        uy_bow(r,rw,cut);
+        socket(stand_w1, stand_h1, stand_w2, stand_h2,width);    
+        
+        translate([-width+stand_depth,-stand_h/2]){
+            pillar(stand_w,stand_h,stand_depth,stand_w2,stand_h2);
+        }
+        
+        translate([width-stand_depth,-stand_h/2]){
+            mirror([1,0,0]){
+                pillar(stand_w,stand_h,stand_depth,stand_w2,stand_h2);
+                }
+        }
+        
+        
+     
+}
+
+module pillar(w,h,b,stand_w2,stand_h2){
+    
+    r = (4*b*b + h*h)/(8*b);
+    kos = r - b;
+    
+    intersection(){
+        square([w, h], center = true);
+        translate([-kos,0]){
+                circle(r);
+            }
+        }
+        
+        translate([0,-h/2]){
+        square([stand_w2/2,stand_h2],center=false);
+        }
+        
+        translate([-h_man,-h/2 - h_man]){
+            plug_cutout();
+        }
+    }    
+    
+module socket(stand_w1, stand_h1, stand_w2, stand_h2, width){
+    union(){
+        translate([width-stand_w1,-stand_h1]){
+            square([stand_w1,stand_h1],center=false);
+            }
+            
+         translate([-width,-stand_h1]){
+             square([stand_w1,stand_h1],center=false);
+             }
+
+        translate([width-stand_w2,-stand_h2]){
+            square([stand_w2,stand_h2],center=false);
+            }
+             
+         translate([-width,-stand_h2]){
+             square([stand_w2,stand_h2],center=false);
+             }
+
+                 
+        }
+    }
+    
+module uy_bow(r,d,c){
+    translate([0,2*(0.5-c)*(r+d)]){
+        difference(){
+            uy_bow_base(r,d);
+            translate([0,-2*(1-c)*(r+d)]){
+                square(2*(r+d), center=true);
+                }
+            }
+        }    
+    }    
+    
+module uy_bow_base(r,d){
+    
+    
+    
+    
+    difference(){
+        union(){
+            circle(r+d);
+            translate([0,-(r+d)/2]){
+                square([2*(r+d), (r+d)], center=true);
+                }
+            }
+        circle(r);
+        }
+    }
+
 
 /********************/
 /* WALL MODULES */
 /********************/
+ module wall_basic_b(n,h,wg,t){
+     
+    difference(){
+        wall_basic_basic(n,h);
+        translate([(n*w_unit/2)-(wg/2)+h_man,50]){
+            umayyad_arc_1(wg,t);
+            }
+        }
+    }
     
     module wall_basic_f(n,h,wg,hg){
     difference(){
@@ -50,6 +171,7 @@ tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
         }
     }
     module wall_basic_basic(n,h,ost){
+        
     translate([h_man, h_man+h]){
     difference(){
     union(){
