@@ -3,7 +3,7 @@
 $fn=500; // Circle resolution
 h_man=5;
 
-/* GLOBAL MODEL VARIABLES */
+/* GLOBAL MODEL VARIABLES -- MUST BE DEFINED!! */
 w_unit = 30; // merlon total width
 h_unit = 30; // merlon total height
 
@@ -24,6 +24,7 @@ w_gate=100;
 
 
 /**********************************************************************/
+/*
 tower_1_f(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
 translate([-160,0]){
 tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
@@ -31,8 +32,81 @@ tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
 translate([160,0]){
 tower_1_s(nof_merlon_tower, h_tower,w_win_tower,h_win_tower);
     } 
+  */  
+    
+    wall_basic_f(nof_merlon_wall,h_wall,w_gate, h_gate);
 /**********************************************************************/
 
+/********************/
+/* WALL MODULES */
+/********************/
+    
+    module wall_basic_f(n,h,wg,hg){
+    difference(){
+        wall_basic_basic(n,h);
+        translate([(n*w_unit/2)-(wg/2)+h_man,0]){
+            window_r_1(wg,hg);
+            }
+        }
+    }
+    module wall_basic_basic(n,h,ost){
+    translate([h_man, h_man+h]){
+    difference(){
+    union(){
+        for(i=[0:n-1]){
+            translate([i*w_unit,-0.0001]){
+                merlon();
+                }
+            }
+         translate([0,-h]){
+             square([n*w_unit, h]);
+             }
+             
+        // LEFT PLUGS
+        for(i = [1:2:h/h_man]){
+            translate([-h_man, -i*h_man]){
+                plug_cutout();
+                }
+            }
+          
+        // BOTTOM PLUGS
+        for(i = [1:2:n*w_unit/h_man]){
+            translate([i*h_man, -h-h_man+0.001]){
+                plug_cutout();
+                }
+            }
+        // LEFT PLUGS
+        for(i = [1:2:h/h_man]){
+            translate([n*w_unit, -i*h_man]){
+                plug_cutout();
+                }
+            }    
+            
+             
+        } // end union
+        
+        
+        translate([0,-h+2*h_man]){
+          for(j=[1:3]){
+            translate([0,j*h_floor-os_top]){                                     
+                for(k=[1:2:n*w_unit/h_man-2]){
+                    translate([k*h_man,0]){
+                        plug_cutout();
+                        }
+                    } // end floors
+                    
+                }
+            }
+            }
+
+    } // end difference
+    }// end shift
+    }
+    
+
+/********************/
+/*TOWER MODULES*/
+/********************/    
 module tower_1_s(n,h,win_w,win_h){
     
     difference(){
@@ -154,8 +228,7 @@ module tower_basic_f(n,h){
 } // end tower
 
 
-module tower_basic_basic(n,h){
-    
+module tower_basic_basic(n,h){    
             union(){
             for(i = [0:n-1]){
                 translate([i*w_unit,-0.001]){
@@ -209,6 +282,7 @@ module window_r_1(w,h){
             }
         }
     }
+
 
 
 /*MANUFACTURING*/
